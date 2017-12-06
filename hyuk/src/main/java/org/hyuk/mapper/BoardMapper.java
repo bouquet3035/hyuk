@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.hyuk.dto.BoardDTO;
 import org.hyuk.dto.Criteria;
+import org.hyuk.dto.SearchCriteria;
 
 import lombok.Delegate;
 
@@ -38,10 +39,15 @@ public interface BoardMapper {
 	@Select("select *from tbl_board where bno >0 order by bno desc limit #{pageStart}, #{perPageNum}")
 	public List<BoardDTO> listCriteria(Criteria cri) ;
 	
-	@Select("select  count(bno) from tbl_board where bno > 0")
+	@Select("select count(bno) from tbl_board where bno > 0")
 	public int countPaging(Criteria cri) ;
 	
+	//검색 과 페이징 처리 하기위한  
+	@Select("select *from tbl_board where bno >0 order by bno desc limit #{pageStart}, #{perPageNum}")
+	public List<BoardDTO> listSearch(SearchCriteria cri); 
 	
+	@Select("count(bno) from tbl_board where bno > 0 ")
+	public int listSeachCount(SearchCriteria cri) ; 
 	
 
 }

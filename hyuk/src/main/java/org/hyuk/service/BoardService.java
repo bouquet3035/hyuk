@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hyuk.dto.BoardDTO;
 import org.hyuk.dto.Criteria;
+import org.hyuk.dto.SearchCriteria;
 
 public interface BoardService {
 	
@@ -26,5 +27,14 @@ public interface BoardService {
 	public int countPaging(Criteria cri);
 
 	public int listCountCriteria(Criteria cri);
+	
+	//검색 - 동적sql문을 적용하기위한 메소드 설정 
+	
+	//검색과 페이징을 둘다 처리 하기위해서  listSearch , listSearchCount  
+	public List<BoardDTO> listSearch(SearchCriteria cri); 
+	
+	public int listSeachCount(SearchCriteria cri) ; 
+	
+	
 
 }

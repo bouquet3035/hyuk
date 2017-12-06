@@ -49,7 +49,7 @@ public class MainController {
 		log.info(bdto.toString());
 		boardservice.registerBoard(bdto);
 		rttr.addFlashAttribute("msg","success") ;
-		return "redirect:/dashboard/board";
+		return "redirect:/dashboard/listPage";
 		
 	}
 	
@@ -93,6 +93,8 @@ public class MainController {
 	}
 	@GetMapping("/listPage")
 	public void listPage(@ModelAttribute("cri")Criteria cri, Model model) {
+		
+		log.info("///////////////////////////////////////////////////");
 		log.info(cri.toString());
 		
 		model.addAttribute("list",boardservice.listCriteria(cri)); 
@@ -103,7 +105,11 @@ public class MainController {
 		log.info("listPage ∆‰¿Ã¡ˆ"+pageMaker.toString());
 		pageMaker.setTotalCount(boardservice.listCountCriteria(cri));
 		
+		log.info("≈‰≈ª:"+pageMaker.getTotalCount() );
+		
 		model.addAttribute("pageMaker",pageMaker) ; 
+		
+		log.info("///////////////////////////////////////////////////");
 	}
 	
 	

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.hyuk.dto.BoardDTO;
 import org.hyuk.dto.Criteria;
+import org.hyuk.dto.SearchCriteria;
 import org.hyuk.mapper.BoardMapper;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.stereotype.Service;
@@ -83,6 +84,18 @@ public class BoardServiceImpl implements BoardService {
 	public int listCountCriteria(Criteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.countPaging(cri);
+	}
+
+	@Override
+	public List<BoardDTO> listSearch(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.listSearch(cri);
+	}
+
+	@Override
+	public int listSeachCount(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.listSeachCount(cri);
 	}
 
 
