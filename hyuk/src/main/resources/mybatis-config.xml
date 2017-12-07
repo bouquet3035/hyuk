@@ -6,6 +6,6 @@
   
   <configuration>
   	<typeAliases>
-  		<package name="org.barakamon.dto"/>
+  		<package name="org.hyuk.dto"/>
   	</typeAliases>
   </configuration>

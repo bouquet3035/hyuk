@@ -86,7 +86,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.countPaging(cri);
 	}
 
-	@Override
+	/*@Override
 	public List<BoardDTO> listSearch(SearchCriteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.listSearch(cri);
@@ -96,6 +96,18 @@ public class BoardServiceImpl implements BoardService {
 	public int listSeachCount(SearchCriteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.listSeachCount(cri);
+	}*/
+
+	@Override
+	public List<BoardDTO> listSearchCriteria(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.listSearch(cri) ; 
+	}
+
+	@Override
+	public int listSearchCount(SearchCriteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.listSearchCount(cri) ; 
 	}
 
 

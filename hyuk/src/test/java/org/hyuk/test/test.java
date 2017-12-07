@@ -74,15 +74,15 @@ public class test {
 		
 		log.info("//////////////////////////////");
 		
-		List<BoardDTO> list = service.listSearch(cri) ; 
-		
-		for(BoardDTO boardDTO : list) {
-			log.info(boardDTO.getBno() +":"+boardDTO.getTitle() );
-		}
-		log.info("=================================");
-		
-		log.info("count:"+service.listSeachCount(cri));
-		
+//		List<BoardDTO> list = service.listSearch(cri) ; 
+//		
+//		for(BoardDTO boardDTO : list) {
+//			log.info(boardDTO.getBno() +":"+boardDTO.getTitle() );
+//		}
+//		log.info("=================================");
+//		
+//		log.info("count:"+service.listSeachCount(cri));
+//		
 	}
 	
 	

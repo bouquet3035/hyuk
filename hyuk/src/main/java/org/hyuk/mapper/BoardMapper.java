@@ -21,7 +21,7 @@ public interface BoardMapper {
 	@Select("select * from tbl_board where bno=#{bno}" )
 	public BoardDTO viewBoard(Integer bno);
 
-	@Insert("insert into tbl_board (title,contents) values(#{title},#{contents})")
+	@Insert("insert into tbl_board (title,contents,writer) values(#{title},#{contents},'user00')")
 	public void registerBoard(BoardDTO bDto);
 	
 	@Delete("delete from tbl_board where bno=#{bno}")
@@ -43,11 +43,10 @@ public interface BoardMapper {
 	public int countPaging(Criteria cri) ;
 	
 	//검색 과 페이징 처리 하기위한  
-	@Select("select *from tbl_board where bno >0 order by bno desc limit #{pageStart}, #{perPageNum}")
+	
 	public List<BoardDTO> listSearch(SearchCriteria cri); 
 	
-	@Select("count(bno) from tbl_board where bno > 0 ")
-	public int listSeachCount(SearchCriteria cri) ; 
+	public int listSearchCount(SearchCriteria cri) ; 
 	
 
 }

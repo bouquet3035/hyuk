@@ -282,9 +282,12 @@
       *********************************************************************************************************************************************************** -->
       <!--main content start-->
       
-      <form  role = "form" method="post">
-      	<input type="hidden" name ="bno" value="${boardDTO.bno}">
-      	
+      <form  role = "form" method="post" action="modifyPage">
+   		  <input type="hidden" name="bno" value="${boardDTO.bno}">
+		<input type="hidden" name="page" value="${cri.page}">
+		<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
+		<input type="hidden" name="searchType" value="${cri.searchType}">      	
+		<input type="hidden" name="keyword" value="${cri.keyword}">
       </form>       
       
       <section id="main-content">
@@ -343,19 +346,21 @@
     	  console.log(formObj) ; 
     	  
     	  $(".modify").on("click",function(){
-    		  formObj.attr("action","/dashboard/modifyboard"); 
+    		  formObj.attr("action","/hyukboard/modifyboard"); 
     		  formObj.attr("method","get");
     		  formObj.submit();
     	  })
     	  
     	   $(".delete").on("click",function(){
-    		  formObj.attr("action","/dashboard/deleteboard"); 
+    		  formObj.attr("action","/hyukboard/deleteboard"); 
     		 
     		  formObj.submit();
     	  })
     	  
     	     $(".board").on("click",function(){
-    		  self.location ="/dashboard/board";
+    	      formObj.attr("method","get"); 
+    	      formObj.attr("action","/hyukboard/list");
+    		  formObj.submit(); 
     	  })
       })
       
@@ -368,45 +373,40 @@
       <footer class="site-footer">
           <div class="text-center">
               2014 - Alvarez.is
-              <a href="form_component.html#" class="go-top">
+             <!--  <a href="form_component.html#" class="go-top">
                   <i class="fa fa-angle-up"></i>
-              </a>
+              </a> -->
           </div>
       </footer>
       <!--footer end-->
   </section>
 
-    <!-- js placed at the end of the document so the pages load faster -->
+  <!-- js placed at the end of the document so the pages load faster -->
     <script src="/resources/assets/js/jquery.js"></script>
+    
+    <script src="/resources/assets/js/jquery-1.8.3.min.js"></script>
+    
     <script src="/resources/assets/js/bootstrap.min.js"></script>
     <script class="include" type="text/javascript" src="/resources/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/resources/assets/js/jquery.scrollTo.min.js"></script>
     <script src="/resources/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
 
-
+    <script src="/resources/assets/js/jquery.sparkline.js"></script>
     <!--common script for all pages-->
     <script src="/resources/assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
-    <script src="/resources/assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-
-	<!--custom switch-->
-	<script src="/resources/assets/js/bootstrap-switch.js"></script>
-	
-	<!--custom tagsinput-->
-	<script src="/resources/assets/js/jquery.tagsinput.js"></script>
-	
-	<!--custom checkbox & radio-->
-	
-	<!-- <script type="text/javascript" src="/resources/assets/js/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript" src="/resources/assets/js/bootstrap-daterangepicker/date.js"></script>
-	<script type="text/javascript" src="/resources/assets/js/bootstrap-daterangepicker/daterangepicker.js"></script>
-	 -->
-	<script type="text/javascript" src="/resources/assets/js/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-	
-	
-	<script src="/resources/assets/js/form-component.js"></script>    
     
+    
+    <!--common script for all pages-->
+    <script src="/resources/assets/js/common-scripts.js"></script>
+    
+    <script type="text/javascript" src="/resources/assets/js/gritter/js/jquery.gritter.js"></script>
+    <script type="text/javascript" src="/resources/assets/js/gritter-conf.js"></script>
+
+    <!--script for this page-->
+    <script src="/resources/assets/js/sparkline-chart.js"></script>    
+	<script src="/resources/assets/js/zabuto_calendar.js"></script>	
     
   <!-- <script>
       //custom select box

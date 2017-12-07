@@ -8,6 +8,7 @@ public class BoardDTO {
 	int bno ; 
 	String title ; 
 	String contents; 
+	String writer;
 	Long regdate;
 
 }

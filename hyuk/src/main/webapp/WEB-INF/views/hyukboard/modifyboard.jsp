@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<%@ page session="false" %>
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 
+   
     <title>DASHGUM - Bootstrap Admin Template</title>
-
-    <!-- Bootstrap core CSS -->
+<!-- Bootstrap core CSS -->
     <link href="/resources/assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="/resources/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -28,8 +27,8 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    </head>
-  
+</head>
+
   <body>
 
   <section id="container" >
@@ -246,21 +245,21 @@
                       </ul>
                   </li>
                   <li class="sub-menu">
-                      <a href="javascript:;" >
+                      <a class="active" href="javascript:;" >
                           <i class="fa fa-tasks"></i>
                           <span>Forms</span>
                       </a>
                       <ul class="sub">
-                          <li><a  href="form_component.html">Form Components</a></li>
+                          <li class="active"><a  href="form_component.html">Form Components</a></li>
                       </ul>
                   </li>
                   <li class="sub-menu">
-                      <a class="active" href="javascript:;" >
+                      <a href="javascript:;" >
                           <i class="fa fa-th"></i>
                           <span>Data Tables</span>
                       </a>
                       <ul class="sub">
-                          <li class="active"><a  href="basic_table.html">Basic Table</a></li>
+                          <li><a  href="basic_table.html">Basic Table</a></li>
                           <li><a  href="responsive_table.html">Responsive Table</a></li>
                       </ul>
                   </li>
@@ -285,135 +284,104 @@
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
       <!--main content start-->
+      
+       <form  role="form" method="post" action="modifyboard">
+      	
+			<input type="hidden" name="bno" value="${param.bno}">
+		<input type="hidden" name="page" value="${param.page}">
+		<input type="hidden" name="perPageNum" value="${param.perPageNum}">
+		<input type="hidden" name="searchType" value="${param.searchType}">      	
+     	<input type="hidden" name="keyword" value="${param.keyword}">
+       
+      
       <section id="main-content">
           <section class="wrapper">
-          	<h3><i class="fa fa-angle-right"></i> Basic Table Examples</h3>
-				<div class="row">
-				
-	                  <div class="col-md-12">
-	                  
-	                  	  <div class="content-panel">
-	                  	  	  <h4><i class="fa fa-angle-right"></i> Basic Table</h4>
-	                  	  	  
-	                  	  
-	                			  <a href="/hyukboard/registerboard"><button class= "btn btn-theme02" type="button" style ="float:right; margin-right:1.5em;">등록 버튼 </button></a>	  
-						
-		                      <table class="table">
-		              
-		                    
-		                      
-		                      <div class ='box-body'>
-		                      
-		                      <select name ="searchType">
-		                      		<option value="n"
-		                      			<c:out value ="${cri.searchType == null ? 'selected' :'' }"/>>
-		                      		---</option> 
-		                      		<option value="t"
-		                      			<c:out value ="${cri.searchType eq 't' ? 'selected' :'' }"/>>
-		                      		Title</option> 
-		                      		<option value="c"
-		                      			<c:out value ="${cri.searchType eq 'c' ? 'selected' :'' }"/>>
-		                      		Content</option> 
-		                      		<option value="w"
-		                      			<c:out value ="${cri.searchType eq 'w' ? 'selected' :'' }"/>>
-		                      		Writer</option> 
-		                      		<option value="tc"
-		                      			<c:out value ="${cri.searchType eq 'tc' ? 'selected' :'' }"/>>
-		                      		Title OR Content</option> 
-		                      		<option value="cw"
-		                      			<c:out value ="${cri.searchType eq 'cw' ? 'selected' :'' }"/>>
-		                      		Content OR Writer</option> 
-		                      		<option value="tcw"
-		                      			<c:out value ="${cri.searchType eq 'tcw' ? 'selected' :'' }"/>>
-		                      		Title OR Content OR Writer</option> 
+          	<h3><i class="fa fa-angle-right"></i> Form Components</h3>
+          	
+          	<!-- BASIC FORM ELELEMNTS -->
+          	<div class="row mt">
+          		<div class="col-lg-12">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Form Elements</h4>
+                  	  
+               		  
+              
+               <button  class= "modify btn btn-theme03" type="sumit">수정하기 </button>
+               <button  class= "board btn btn-theme03" type="sumit">돌아가기 </button>
+                  	   <br></br>
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label" >제목 :</label>
+                              <div class="col-sm-10">
+                                  <input name= "title" type="text" class="form-control"  value="${boardDTO.title}">
+                                  </input>
+                              </div>
+                          </div>
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label" >내용 :</label>
+                              <div class="col-sm-10">
+                                  <input  name= "contents" type="text"  size="50"class="form-control"  value='${boardDTO.contents}'/>
+                              </div>
+                          </div>
 
-		                      </select>
-		                      
-		                      <input type="text" name='keyword' id="keywordInput" value ="${cri.keyword}">
-		                     	<button id='searchBtn'>Search</button> 
-		                     	<button id='newBtn'>New Board</button> 
-		                       
-		                      
-		                      </div>
-		                      
-		                      
-		                          <thead>
-			                          <tr>
-			                              
-			                              <th>bno</th>
-			                              <th>제목</th>
-			                              <th>작성자</th>
-			                              <th>작성날짜</th>
-			                              
-			                          </tr>
-		                          </thead>
-		                          <tbody>
-		                          
-		                      <c:forEach items="${list}" var="boardDTO" >
-			                          <tr>
-			                          	<td> ${boardDTO.bno}</td>
-			                          	<td><a href="/hyukboard/readPage${pageMaker.makeSearch(pageMaker.cri.page)}&bno=${boardDTO.bno}">
-			                          	${boardDTO.title}</a></td>
-			                          	<td>${boardDTO.writer }</td>
-			                          	<td>${boardDTO.regdate }</td>
-			                        	<%-- <td><fmt:formatDate pattern="yyyy-MM-dd" value="${boardDTO.regdate}"/><td>	  --%>
-			                          </tr>
-		                          </c:forEach>
-		                          </tbody>
-		                      </table>
-
-				<div class="text-center">
-					<ul class="pagination">
-						<c:if test="${pageMaker.prev}">
-							<li><a href="list?page=${pagaMaker.makeSearch(pageMaker.startPage-1)}">&laquo;</a></li>
-						</c:if>
-
-						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-							<li
-								<c:out value ="${pageMaker.cri.page==idx? 'class=active' :'' }"/>>
-								<a href="list${pageMaker.makeSearch(idx)}">${idx}</a>
-							</li>
-						</c:forEach>
-
-						<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-							<li><a href="list${pageMaker.makeSearch(pageMaker.endPage +1)}">&raquo;</a>
-						</c:if>
-					</ul>
-				</div>
-				
-			</div><! --/content-panel -->
-	                  </div><!-- /col-md-12 -->
+                            <div class="photo">
+                            	<img class="img-responsive" src="/resources/assets/img/portfolio/port04.jpg" alt="">
+                            </div>
+                            <div class="overlay"></div>
+                            
+                            
                   
-	               
-              </div><!-- /row -->
-              
-              
-
-
+                      
+                  </div>
+          		</div><!-- col-lg-12-->      	
+          	</div><!-- /row -->
+             </form>  
+             
 		</section><! --/wrapper -->
       </section><!-- /MAIN CONTENT -->
-      
-     
 
       <!--main content end-->
+      <script src="https://code.jquery.com/jquery-3.2.1.js"
+		  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+		  crossorigin="anonymous"></script>
+  <script>
+      $(document).ready(function(){
+    	  
+    	  var formObj = $("form[role ='form']"); 
+    	  
+    	  console.log(formObj) ; 
+    	  
+    	  $(".modify").on("click",function()
+    		{
+    		  formObj.submit();
+    		});
+    	  
+    	  
+    	  
+   	     $(".board").on("click",function(){
+   		  self.location ="/hyuk/list?page=${cri.page}&perPageNum=${cri.perPageNum}"
+   				  +"searchType=${cri.searchType}&keyword=${cri.keyword}"; 
+   				  
+    	  });
+      });
+      
+      </script>
+      
+      
+      
+      
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
               2014 - Alvarez.is
-              <a href="basic_table.html#" class="go-top">
+              <a href="form_component.html#" class="go-top">
                   <i class="fa fa-angle-up"></i>
               </a>
           </div>
       </footer>
       <!--footer end-->
   </section>
-  
-  <script
-	  src="https://code.jquery.com/jquery-3.2.1.js"
-	  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-	  crossorigin="anonymous"></script>
 
-    <!-- js placed at the end of the document so the pages load faster -->
+ <!-- js placed at the end of the document so the pages load faster -->
     <script src="/resources/assets/js/jquery.js"></script>
     
     <script src="/resources/assets/js/jquery-1.8.3.min.js"></script>
@@ -439,49 +407,14 @@
     <!--script for this page-->
     <script src="/resources/assets/js/sparkline-chart.js"></script>    
 	<script src="/resources/assets/js/zabuto_calendar.js"></script>	
-    
-  <script>
+  <!-- <script>
       //custom select box
 
-  /*     $(function(){
+      $(function(){
           $('select.styled').customSelect();
-      }); */
-      
-      var result ="${msg}"; 
-      
-      if(result=='success'){
-    	  alert("처리가 완료되었습니다.");
-      }
-      
-      
+      });
 
-  </script>
-  
-  <script>
-  $(document).ready(
-		  function(){
-			  
-		$('#searchBtn').on('click',function(event){
-			/* console.log("searchBtn 버튼 테스트") ; */
-			
-			alert("search...........btn");
-			
-  				 self.location = "list"
-	    		  +'${pageMaker.makeQuery(1)}'
-	    		  +'&searchType='
-	    		  +$("select option:selected").val() 
-	    		  +"&keyword="+encodeURIComponent($('#keywordInput').val()) ;  
-		
-			
-		
-		});
-		
-		$('#newBtn').on("click",function(evt){
-			self.location = "register" ; 
-		}); 		  
-		  
-	});
-  </script>
+  </script> -->
 
   </body>
-  </html>
+</html>
