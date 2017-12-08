@@ -330,8 +330,62 @@
                   </div>
           		</div><!-- col-lg-12-->      	
           	</div><!-- /row -->
+          	<!--댓글 입력 부분 -->
+          	<div class ="row mt">
+          	<div class="col-lg-12">
+          	  <div class="form-panel">
+          	  	 <button  class= "btn btn-theme03" type="sumit" id="replyAddBtn">입력 버튼 </button>
+	          	  	 <div class="form-group">
+	                   <label class="col-sm-2 col-sm-2 control-label">작성자:</label>
+	                     <div class="col-sm-10">
+	                         <input  type="text" class="form-control" id="newReplyWriter" placeholder="User ID">
+	                     </div>
+	              	 </div>
+
+	          	  	 <div class="form-group">
+	                   <label class="col-sm-2 col-sm-2 control-label" >댓글내용 :</label>
+	                     <div class="col-sm-10">
+	                         <input type="text" class="form-control" id="newReplyText" placeholder="REPLY TEXT">
+	                     </div>
+	              	 </div>
+            	</div>
+			
+                 </div>	
+                 </div><!--댓글 입력 부분  end-->
+                 
+                  <button  class=  btn btn-theme03" type="sumit" id="">댓글조회 </button>
+                  <!-- 댓글 조회 -->
+                 <div class ="row mt">
+          			<div class="col-lg-12">
+          	 			 <div class="form-panel">
+	          		  	 <div class="form-group">
+	             		      <label class="col-sm-2 col-sm-2 control-label">댓글조회:</label>
+	                     <div class="col-sm-10">
+	                     	<ul class="timeline">
+	                     		<li class="time-label" id="repliesDiv" > <span class="bg-green">Reply List</span>
+	                     		</li>
+	                     	</ul>
+	                     	
+	                     	<div class="text-center">
+								<ul class="pagination" id="pagination">
+									
+								</ul>
+							</div>
+	                     	
+	                     </div>	   
+	              		 </div>
+
+	          	  
+            	</div>
+
+                 </div>	
+                 </div><!-- 댓글 조회END -->
+                 
+                 
+      
+          	 
           
-		</section><! --/wrapper -->
+		</section> <!-- /wrapper -->
       </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
@@ -364,6 +418,18 @@
     	  })
       })
       
+      </script>
+      
+      <script id="template" type="text/x-handlebars-template">
+ 		{{#each .}}
+		<li class="replyLi" data-rno={{rno}}>
+		<i class="fa fa-comments bg-blue></i>
+			<div class="timeline-item">
+				<span class="time">
+					<i class="fa fa-clock-o"></i>{{prettifyDate regdate}}
+				</span>      
+		<h3 class="timeline-header"><strong>{{rno}}</strong> -{{replyer}}</h3>
+		<div class>
       </script>
       
       

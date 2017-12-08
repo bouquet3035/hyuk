@@ -1,6 +1,8 @@
 package org.hyuk.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -21,7 +23,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void addReply(ReplyDTO replyDTO) {
 		// TODO Auto-generated method stub
-		log.info("skkkk");
+		
 		replyMapper.create(replyDTO);
 	}
 
@@ -45,8 +47,8 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public List<ReplyDTO> listReplyPage(Integer bno, Criteria cri) {
-		// TODO Auto-generated method stub
-		return replyMapper.listPage(bno, cri) ; 
+
+		    return replyMapper.listPage(bno, cri); 
 	}
 
 	@Override

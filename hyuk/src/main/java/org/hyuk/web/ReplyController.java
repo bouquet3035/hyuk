@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.java.Log;
+
 @RestController
 @RequestMapping("/replies/*")
+@Log
 public class ReplyController {
 
 	@Inject
@@ -66,7 +70,7 @@ public class ReplyController {
 		return entity ; 
 	}
 	
-	@PatchMapping("/{rno}")
+	@PutMapping("/{rno}")
 	public ResponseEntity<List<ReplyDTO>> update (@PathVariable("rno") Integer rno ,@RequestBody ReplyDTO replyDTO ){
 		ResponseEntity<List<ReplyDTO>> entity = null ; 
 		
@@ -82,7 +86,7 @@ public class ReplyController {
 	}
 	
 	@DeleteMapping("/{rno}")
-	public ResponseEntity<String> remove (@PathVariable("rno") Integer rno ,@RequestBody ReplyDTO replyDTO ){
+	public ResponseEntity<String> remove (@PathVariable("rno") Integer rno){
 		ResponseEntity<String> entity = null ; 
 		
 		try {
@@ -101,9 +105,12 @@ public class ReplyController {
 	@GetMapping("/{bno}/{page}")
 	public ResponseEntity<Map<String,Object>> listPage (@PathVariable("bno") Integer bno, @PathVariable ("page")Integer page){
 		
+		log.info("ListPage GET¹æ½Ä ");
+		
 		ResponseEntity<Map<String,Object>> entity = null ; 
 		
 		try {
+			
 			Criteria cri = new Criteria(); 
 			cri.setPage(page);
 			
@@ -127,7 +134,7 @@ public class ReplyController {
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+			entity = new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST); 
 		}
 		return entity ; 
 		
