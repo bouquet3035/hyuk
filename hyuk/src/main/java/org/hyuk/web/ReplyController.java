@@ -74,9 +74,16 @@ public class ReplyController {
 	public ResponseEntity<List<ReplyDTO>> update (@PathVariable("rno") Integer rno ,@RequestBody ReplyDTO replyDTO ){
 		ResponseEntity<List<ReplyDTO>> entity = null ; 
 		
+		log.info("update put매핑");
+	
+		
+		
 		try {
 			replyDTO.setRno(rno);
 			service.modifyReply(replyDTO);
+			log.info("rno"+ rno);
+			log.info("내용"+replyDTO); 
+			log.info("성공");
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

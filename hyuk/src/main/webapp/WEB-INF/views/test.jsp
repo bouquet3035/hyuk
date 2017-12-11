@@ -137,6 +137,8 @@
 			var reply = $(this).parent();
 			var rno = reply.attr("data-rno");
 			var replytext = reply.text();
+			console.log(reply);
+			console.log(rno);
 			$(".modal-title").html(rno);
 			$("#replytext").val(replytext);
 			$("#modDiv").show("slow");
