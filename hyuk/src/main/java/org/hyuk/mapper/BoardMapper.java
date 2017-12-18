@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.hyuk.dto.BoardDTO;
@@ -21,7 +22,7 @@ public interface BoardMapper {
 	@Select("select * from tbl_board where bno=#{bno}" )
 	public BoardDTO viewBoard(Integer bno);
 
-	@Insert("insert into tbl_board (title,contents,writer) values(#{title},#{contents},'user00')")
+	@Insert("insert into tbl_board (title,contents,writer) values(#{title},#{contents},#{writer})")
 	public void registerBoard(BoardDTO bDto);
 	
 	@Delete("delete from tbl_board where bno=#{bno}")
@@ -47,6 +48,20 @@ public interface BoardMapper {
 	public List<BoardDTO> listSearch(SearchCriteria cri); 
 	
 	public int listSearchCount(SearchCriteria cri) ; 
+	
+	//사진첨부 기능 부터 
+	@Insert("insert into tbl_attach(fullname,bno)values(#{fullName},LAST_INSERT_ID())")
+	public void addAttach(String fullName); 
+	
+	@Select("select fullname from tbl_attach where bno =#{bno} order by regdate")
+	public List<String> getAttach(Integer bno);
+	
+	@Delete("delete from tbl_attach where bno =#{bno}")
+	public void deleteAttach(Integer bno); 
+	
+	@Insert("insert into tbl_attach(fullname,bno) values(#{fullname} ,#{bno})")
+	public void replaceAttach( @Param("fullname")String fullname ,@Param("bno") Integer bno);
+	
 	
 
 }

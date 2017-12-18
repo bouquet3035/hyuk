@@ -1,5 +1,7 @@
 package org.hyuk.dto;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -9,6 +11,9 @@ public class BoardDTO {
 	String title ; 
 	String contents; 
 	String writer;
-	Long regdate;
+	Date regdate;
+	
+	String[] files ; 
+	
 
 }

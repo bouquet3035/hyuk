@@ -246,10 +246,12 @@
 				<h4 class="mb">
 					<i class="fa fa-angle-right"></i> Form Elements
 				</h4>
-
-
-				<button class="modify btn btn-theme03" type="sumit">수정 버튼</button>
-				<button class="delete btn btn-theme03" type="sumit">삭제 버튼</button>
+				
+			
+				<c:if test="${login.uid == boardDTO.writer}">
+				<button class="modify btn btn-theme03" type="submit">수정 버튼</button>
+				<button class="delete btn btn-theme03">삭제 버튼</button>
+				</c:if>
 				<button class="board btn btn-theme03" type="sumit">돌아가기</button>
 				<br></br>
 				<div class="form-group">
@@ -259,6 +261,7 @@
 							readonly="readonly" value="${boardDTO.title}"> </input>
 					</div>
 				</div>
+				
 				<div class="form-group">
 					<label class="col-sm-2 col-sm-2 control-label">내용 :</label>
 					<div class="col-sm-10">
@@ -266,13 +269,14 @@
 							readonly="readonly" value='${boardDTO.contents}' />
 					</div>
 				</div>
+			
 
 				<br></br>
 				<div class="form-group">
-					<div class="photo">
-						<img class="img-responsive"
-							src="/resources/assets/img/portfolio/port04.jpg" alt="">
-					</div>
+
+                     <ul class="mailbox-attachments clearfix uploadedList"> 
+								
+                     </ul>
 				</div>
 
 				<div class="overlay"></div>
@@ -290,23 +294,23 @@
 	<div class="row mt">
 		<div class="col-lg-12">
 			<div class="form-panel">
-				<button class="btn btn-theme03" type="submit" id="replyAddBtn">입력
-					버튼</button>
-				<div class="form-group">
-					<label class="col-sm-2 col-sm-2 control-label">작성자:</label> <input
-						type="text" class="form-control" id="newReplyWriter"
-						placeholder="User ID"> <label
-						class="col-sm-2 col-sm-2 control-label">댓글내용 :</label> <input
-						type="text" class="form-control" id="newReplyText"
-						placeholder="REPLY TEXT">
-				</div>
+
+				<c:if test="${not empty login}">
+					<button class="btn btn-theme03" type="submit" id="replyAddBtn">입력
+						버튼</button>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">작성자:</label> 
+						<input type="text" class="form-control" id="newReplyWriter"placeholder="User ID" value="${login.uid}" readonly="readonly"> 
+							<label class="col-sm-2 col-sm-2 control-label">댓글내용 :</label>
+								 <input	type="text" class="form-control" id="newReplyText" placeholder="REPLY TEXT">
+					</div>
+				</c:if>
 
 			</div>
 
 		</div>
 	</div>
 
-	<button class="btn btn-theme03" type="submit" id="">댓글조회</button>
 	<!-- 댓글 조회 -->
 	<div class="row mt">
 		<div class="col-lg-12">
@@ -322,7 +326,7 @@
 							</tr>
 						</thead>
 						<tbody id="replies">
-
+				
 
 						</tbody>
 					</table>
@@ -371,12 +375,114 @@
 	</section> <!-- /wrapper --> </section><!-- /MAIN CONTENT --> <!--main content end--> <script
 		src="https://code.jquery.com/jquery-3.2.1.js"
 		integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-		crossorigin="anonymous"></script> <script>
+		crossorigin="anonymous"></script> 
+		
+	
+	  <script type="text/javascript" src="/resources/js/upload.js"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+	
+    <script id=templateAttach type="text/x-handlebars-template">
+	<li>
+ 	 <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+ 	 <div class="mailbox-attachment-info">
+		<span>
+		<a  class="hlink" href="{{getLink}}" >{{fileName}}</a>
+		<a class="hhlink"href="{{fullName}}" ><i class="fa fa-fw fa-remove"></i></a>
+		</span>
+
+ 	 </div>
+	</li>                
+	</script>
+		
+	<script>
+		var bno = ${boardDTO.bno};
+	   	var template = Handlebars.compile($("#templateAttach").html());
+		
+		
+		
+		$.getJSON("/hyukboard/getAttach/"+bno,function(list){
+			 console.log("bno:"+bno); 
+			$(list).each(function(){				
+				var fileInfo = getFileInfo(this);		
+				var html = template(fileInfo);				
+				 $(".uploadedList").append(html);
+			});
+			
+		});
+	</script>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<script>
       $(document).ready(function(){
     	  
     	  var formObj = $("form[role ='form']"); 
     	  
-    	  console.log(formObj) ; 
+    	  console.log("frormObj:"+formObj) ; 
     	  
     	  $(".modify").on("click",function(){
     		  formObj.attr("action","/hyukboard/modifyboard"); 
@@ -440,26 +546,22 @@ replylist();
 	
 		var bno = ${boardDTO.bno};
 		
+		
 		getPageList(1);
 		
 		function getAllList() {
-			$
-					.getJSON(
-							"/replies/all/" + bno,
+			$.getJSON("/replies/all/" + bno,
 							function(data) {
 								//console.log(data.length);
 								var str = "";
-								$(data)
-										.each(
-												function() {
-													str += "<li data-rno='"+this.rno+"' class='replyLi'>"
+								$(data).each(function() {str += "<li data-rno='"+this.rno+"' class='replyLi'>"
 															+ this.rno
 															+ ":"
 															+ this.replytext
 															+ "</li>";
-												});
+														});
 								$("#replies").html(str);
-							});
+										});
 		}
 		$("#replyAddBtn").on("click", function() {
 			var replyer = $("#newReplyWriter").val();
@@ -583,23 +685,33 @@ replylist();
 			 	});
 			 	
  	/*  */
+ 	
+ 		
+	
 		
 		function getPageList(page){
 			
 		  $.getJSON("/replies/"+bno+"/"+page , function(data){
 			  
-			  console.log(data.list.length);
-			  
-			  var str ="";
+			  console.log("댓글 갯수"+data.list.length);
+			  var str = "";
 			  
 			  $(data.list).each(function(){
-				  str+= "<tr data-rno='"+this.rno+"'data-replytext='"+this.replytext+"'  class='replyLi'> "
+				  console.log("게시물작성자:"+"${boardDTO.writer}");
+				  console.log("로그이 id:"+"${login.uid}");
+				  console.log("댓글 작성자:"+this.replyer);
+				 
+				  str += "<tr data-rno='"+this.rno+"'data-replytext='"+this.replytext+"'  class='replyLi'> "
 				  +"<td>"+this.rno+"</td>"
 				  +"<td>"+this.replyer+"</td>"
 				  +"<td id='replytext'>"+this.replytext+"</td>"
 				  +"<td>"
-				  +"<button class='btn btn-primary btn-xs ' id='replyModBtn' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil'></i></button>"
-				  +"<button class='btn btn-danger btn-xs' id='replyDelBtn'><i class='fa fa-trash-o'></i></button>"
+				  if(this.replyer==='${login.uid}'){
+					 console.log("true");
+					 
+				   str += "<button class='btn btn-primary btn-xs ' id='replyModBtn' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil'></i></button>"
+				      +"<button class='btn btn-danger btn-xs' id='replyDelBtn'><i class='fa fa-trash-o'></i></button>"
+				  }
 				  +"</td>"
 				  +"</tr>";
 				
@@ -645,9 +757,34 @@ replylist();
 		});
 		
 		
+		/* 삭제 버튼 클릭시  */
+		$(".delete").on("click", function(){
+			var replyCnt =  $(".hhlink").html();	
+			
+			if(replyCnt > 0 ){
+				alert("댓글이 달린 게시물을 삭제할 수 없습니다.");
+				return;
+			}	
+			var arr = [];
+			$(".uploadedList .hhlink").each(function(index){
+				 arr.push($(".hhlink").attr("href"));
+			});
+			console.log("댓글 갯수"+arr);
+			if(arr.length > 0){
+				$.post("/deleteAllFiles",{files:arr}, function(){
+					
+				});
+			}
+
+			formObj.attr("action","/hyukboard/list");
+			formObj.submit();
+
+			
+		});
 	  		
 	  		
-	</script> <script>
+	</script>
+	 <script>
 /* $(document).ready(function(){
 	var str = "";
 	function test(){

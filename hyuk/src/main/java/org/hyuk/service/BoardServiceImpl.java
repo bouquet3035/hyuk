@@ -9,7 +9,9 @@ import org.hyuk.dto.Criteria;
 import org.hyuk.dto.SearchCriteria;
 import org.hyuk.mapper.BoardMapper;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.java.Log;
 @Service
@@ -22,13 +24,16 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void registerBoard(BoardDTO bDto) {
 		// TODO Auto-generated method stub
+		log.info("registerBoard"+bDto);
 		mapper.registerBoard(bDto);
 	}
 
+	@Transactional
 	@Override
 	public void deleteBoard(Integer bno) {
 		// TODO Auto-generated method stub
 		mapper.deleteBoard(bno);
+		mapper.deleteAttach(bno);
 	}
 
 	@Override
@@ -43,10 +48,27 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.viewBoard(bno);
 	}
 
+	@Transactional
 	@Override
 	public void updateBoard(BoardDTO bto) {
 		// TODO Auto-generated method stub
+		log.info("updateBoard 1");
 		mapper.updateBoard(bto);
+		log.info("updateBoard 2");
+		mapper.updateBoard(bto); 
+		log.info("updateBoard 3");
+		Integer bno = bto.getBno(); 
+		log.info("updateBoard 4");
+		mapper.deleteAttach(bno);
+		log.info("updateBoard 5");
+		String[] files = bto.getFiles(); 
+		log.info("updateBoard 6");
+		if(files == null ) {return ;}
+		log.info("updateBoard 7");
+		for(String fileName : files) {
+			mapper.replaceAttach(fileName, bno);
+		}
+		log.info("updateBoard 8");
 	}
 
 	@Override
@@ -109,6 +131,64 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return mapper.listSearchCount(cri) ; 
 	}
+
+	@Transactional
+	@Override
+	public void regist(BoardDTO board) {
+		// TODO Auto-generated method stub
+		mapper.registerBoard(board);
+		String[] files =board.getFiles();
+		log.info("files:"+files); 
+		
+		if(files == null) {
+			log.info("실패");
+			return ; 
+		}
+		for(String fileName : files) {
+			mapper.addAttach(fileName);
+			
+			log.info("성공 regist");
+		}
+		
+	}
+
+	@Override
+	public List<String> getAttach(Integer bno) {
+		// TODO Auto-generated method stub
+		log.info("getAttach ServiceImpl bno"+bno);
+		log.info("getAttach mapper :" + mapper.getAttach(bno) );
+		return mapper.getAttach(bno);
+	}
+
+	@Override
+	public void deleteAttach(Integer bno) {
+		// TODO Auto-generated method stub
+		mapper.deleteAttach(bno);
+	}
+
+	@Transactional
+	@Override
+	public void modify(BoardDTO board) {
+		// TODO Auto-generated method stub
+		mapper.updateBoard(board); 
+		
+		Integer bno = board.getBno(); 
+		
+		mapper.deleteAttach(bno);
+
+		String[] files = board.getFiles(); 
+		
+		if(files == null ) {return ;}
+		
+		for(String fileName : files) {
+			mapper.replaceAttach(fileName, bno);
+		}
+	}
+
+	
+	
+ 
+
 
 
 }

@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,20 @@ public class HomeController {
 	@RequestMapping(value = "/test" ,method = RequestMethod.GET)
 	public void ajaxTest() {
 		
+	}
+	
+	@RequestMapping(value ="/doA" ,method=RequestMethod.GET)
+	public String doA(Model model) {
+		System.out.println("2.doA.......................");
+		return "home";
+	}
+	@RequestMapping(value="/doB",method=RequestMethod.GET)
+	public String doB(Model model) {
+		System.out.println("doB.......................");
+		
+		model.addAttribute("result","DOB RESULT");
+		
+		return "home";
 	}
 	
 }

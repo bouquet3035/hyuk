@@ -42,6 +42,8 @@ public class ReplyController {
 	@PostMapping("")
 	public ResponseEntity<String> register(@RequestBody ReplyDTO dto){
 		
+		log.info("댓글등록 컨트롤러 ");
+		
 		ResponseEntity<String> entity = null ;
 		try {
 			service.addReply(dto);

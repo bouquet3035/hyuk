@@ -29,8 +29,18 @@
     <![endif]-->
 </head>
 
-  <body>
 
+  <body>
+<style>
+.fileDrop {
+  width: 80%;
+  height: 100px;
+  border: 1px dotted gray;
+  background-color: lightslategrey;
+  margin: auto;
+  
+}
+</style>
   <section id="container" >
       <!-- **********************************************************************************************************************************************************
       TOP BAR CONTENT & NOTIFICATIONS
@@ -285,9 +295,9 @@
       *********************************************************************************************************************************************************** -->
       <!--main content start-->
       
-       <form  role="form" method="post" action="modifyboard">
+       <form id="modiattach" role="form" method="post" action="modifyboard" >
       	
-			<input type="hidden" name="bno" value="${param.bno}">
+		<input type="hidden" name="bno" value="${param.bno}">
 		<input type="hidden" name="page" value="${param.page}">
 		<input type="hidden" name="perPageNum" value="${param.perPageNum}">
 		<input type="hidden" name="searchType" value="${param.searchType}">      	
@@ -303,33 +313,29 @@
           		<div class="col-lg-12">
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> Form Elements</h4>
-                  	  
-               		  
-              
-               <button  class= "modify btn btn-theme03" type="sumit">수정하기 </button>
-               <button  class= "board btn btn-theme03" type="sumit">돌아가기 </button>
+
+               		<button    class="modify btn btn-theme03">수정하기 </button>
+              		 <button  class="board btn btn-theme03" type="submit">돌아가기 </button>
                   	   <br></br>
                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label" >제목 :</label>
-                              <div class="col-sm-10">
-                                  <input name= "title" type="text" class="form-control"  value="${boardDTO.title}">
-                                  </input>
+                            <div class="col-sm-10">
+                              <label class="col-sm-2 col-sm-2 control-label" >제목 :</label>                        
+                                  <input name= "title" type="text" class="form-control"  value="${boardDTO.title}">                                
                               </div>
                           </div>
                            <div class="form-group">
+                             <div class="col-sm-10">
                               <label class="col-sm-2 col-sm-2 control-label" >내용 :</label>
-                              <div class="col-sm-10">
-                                  <input  name= "contents" type="text"  size="50"class="form-control"  value='${boardDTO.contents}'/>
+                                  <input  name= "contents" type="text"  size="50"class="form-control"  value='${boardDTO.contents}'>
                               </div>
                           </div>
-
-                            <div class="photo">
-                            	<img class="img-responsive" src="/resources/assets/img/portfolio/port04.jpg" alt="">
-                            </div>
+ 							 
+ 							<br></br><br></br>
+                            	<div class="fileDrop"></div>    
+                                               
+                           		<ul class="mailbox-attachments clearfix uploadedList"></ul>
+                		    
                             <div class="overlay"></div>
-                            
-                            
-                  
                       
                   </div>
           		</div><!-- col-lg-12-->      	
@@ -352,7 +358,7 @@
     	  
     	  $(".modify").on("click",function()
     		{
-    		  formObj.submit();
+    		  //formObj.submit();
     		});
     	  
     	  
@@ -365,6 +371,119 @@
       });
       
       </script>
+        <script type="text/javascript" src="/resources/js/upload.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+      <script id="template" type="text/x-handlebars-template">
+      <li>
+ 	 	<span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+ 		 <div class="mailbox-attachment-info">
+			<span>
+				<a  href="{{getLink}}">{{fileName}} <i class="ffa fa-check "></i></a>  
+				<a class="hhlink" href="{{fullName}}" > <i class="fa fa-trash-o"> </i></a>
+			</span>
+ 	 	</div>
+	</li>
+      </script>
+      <script >
+
+      var template = Handlebars.compile($("#template").html());
+      
+      var bno = ${boardDTO.bno};
+	  var template = Handlebars.compile($("#template").html());
+
+      $(".fileDrop").on("dragenter dragover", function(event){
+    	console.log("1"); 
+      	event.preventDefault();
+      });
+
+      $(".fileDrop").on("drop", function(event){
+    		console.log("2"); 
+      	event.preventDefault();
+      	
+      	var files = event.originalEvent.dataTransfer.files;
+      	
+      	var file = files[0];
+      	
+      	var formData = new FormData();
+      	
+      	formData.append("file", file);
+      	
+      	$.ajax({
+      		url: '/uploadAjax',
+      		  data: formData,
+      		  dataType:'text',
+      		  processData: false,
+      		  contentType: false,
+      		  type: 'POST',
+      		  success: function(data){
+       			   var fileInfo = getFileInfo(data);
+      			  
+      			  var html = template(fileInfo);
+      			  
+      			  $(".uploadedList").append(html);
+      		  }
+      	});
+       });
+
+      /* 수정 버튼  누루기전 이전에 있던 사진 파일 정보 가져오기  */  
+ 	  var bno = ${boardDTO.bno};
+ 	  var template = Handlebars.compile($("#template").html());
+ 	  $.getJSON("/hyukboard/getAttach/"+bno,function(list){
+		console.log("bno:"+bno); 
+			$(list).each(function(){				
+				var fileInfo = getFileInfo(this);		
+				var html = template(fileInfo);				
+				 $(".uploadedList").append(html);
+				});
+		
+		});  
+      /* 사진 첨부 삭제 버튼 클릭시 이벤트 처리  */
+      $(".uploadedList ").on("click",".hhlink",function(event){
+    	  event.preventDefault();
+    	  var that = $(this); 
+    	
+    	
+     	   $.ajax({
+      			url:"/deleteFile",
+      			type:"post",
+      			data:{fileName:$(".hhlink").attr("href")},
+      			dataType:"text", 
+      			success:function(result){
+      				if(result=='deleted'){
+      					that.parent().parent().parent().remove(); 
+      					
+      				}
+      				
+      			}
+      			
+      		}); 
+       
+      });     
+      
+      
+      
+      /* 수정 버튼 눌렀을 시 */
+      
+      $("#modiattach").submit(function(event){
+       	event.preventDefault();
+
+       var that = $(this);
+      	console.log(that);
+      	var str ="";
+
+      	$(".uploadedList li").each(function(index){
+      		
+      		 str += "<input type='hidden' name='files["+index+"]' value='"+$(".hhlink").attr("href") +"'> ";
+    		
+      	});
+      	 
+      	that.append(str);
+      	console.log("that");
+      	console.log(that);
+      	that.get(0).submit();  
+      });
+      </script>
+      
       
       
       

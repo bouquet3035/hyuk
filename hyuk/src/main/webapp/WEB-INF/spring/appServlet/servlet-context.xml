@@ -33,4 +33,36 @@
 		</beans:constructor-arg>
 	</beans:bean>
 	
+	<!-- <beans:bean id="sampleInterceptor" class="org.hyuk.interceptor.SampleInterceptor"></beans:bean>
+	
+ 	<interceptors>
+		<interceptor>
+			<mapping path="/doA"/>
+			<mapping path="/doB"/>
+			<beans:ref bean="sampleInterceptor"/>
+		</interceptor>
+	</interceptors> -->
+	
+	<beans:bean id="loginInterceptor" class="org.hyuk.interceptor.LoginInterceptor"></beans:bean>
+	 <beans:bean id="authInterceptor" class="org.hyuk.interceptor.AuthInterceptor"></beans:bean>	
+	 
+ 	<interceptors>
+		<interceptor>
+			<mapping path="/user/loginPost"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/hyukboard/list"/>
+			<mapping path="/hyukboard/registerboard"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor> 
+		
+	</interceptors>
+	
+
+	
+
+	
+	
 </beans:beans>

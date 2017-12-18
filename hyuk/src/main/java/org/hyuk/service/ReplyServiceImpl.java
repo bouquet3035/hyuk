@@ -23,7 +23,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void addReply(ReplyDTO replyDTO) {
 		// TODO Auto-generated method stub
-		
+		log.info("replyDTO:"+replyDTO);
 		replyMapper.create(replyDTO);
 	}
 
@@ -47,7 +47,8 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public List<ReplyDTO> listReplyPage(Integer bno, Criteria cri) {
-
+			log.info("listReplyPage bno:"+bno);
+			log.info("listReplyPage cri:"+cri);
 		    return replyMapper.listPage(bno, cri); 
 	}
 

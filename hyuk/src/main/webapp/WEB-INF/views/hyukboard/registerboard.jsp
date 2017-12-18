@@ -6,6 +6,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<style>
+.fileDrop {
+  width: 80%;
+  height: 100px;
+  border: 1px dotted gray;
+  background-color: lightslategrey;
+  margin: auto;
+  
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
    
@@ -291,13 +302,17 @@
           		<div class="col-lg-12">
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> Form Elements</h4>
-                  	  
-                  	   <button class= "btn btn-theme02" type="button">사진 추가 </button>
-                  	   
-                      <form class="form-horizontal style-form" method="post" action="/hyukboard/registerboard">
-                  	    <button  class= "btn btn-theme03" type="submit">등록 버튼 </button>
+
+                      <form id="registerForm" class="form-horizontal style-form" method="post" action="/hyukboard/registerboard">
+                  	    <button   class= "btn btn-theme03" >등록 버튼 </button>
                   	       
                   	   <br></br>
+                  	    <div class="form-group">
+                  	     <label class="col-sm-2 col-sm-2 control-label">작성자: </label>
+                  	     	<div class="col-sm-10">
+                  	      		 <input  name= "writer" type="text" class="form-control" value='${login.uid}'readonly="readonly">
+                  	      	</div>
+                  	    </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">제목 :</label>
                               <div class="col-sm-10">
@@ -308,12 +323,17 @@
                               <label class="col-sm-2 col-sm-2 control-label">내용 :</label>
                               <div class="col-sm-10">
                                   <input  name= "contents" type="text"  size="50"class="form-control">
-                              </div>
+                            </div>                        
                           </div>
-
-                            <div class="photo">
-                            	<img class="img-responsive" src="/resources/assets/img/portfolio/port04.jpg" alt="">
-                            </div>
+                            
+                            <br></br>
+                             <div class="fileDrop">    
+                             
+                                </div>              
+                           	  <ul class="mailbox-attachments clearfix uploadedList"> 
+                            	
+                           	  </ul>               
+                				            
                             <div class="overlay"></div>
                   
                       </form>
@@ -352,7 +372,7 @@
 
     <!--script for this page-->
     
-    
+     
     <!--common script for all pages-->
     <script src="/resources/assets/js/common-scripts.js"></script>
     
@@ -362,8 +382,106 @@
     <!--script for this page-->
     <script src="/resources/assets/js/sparkline-chart.js"></script>    
 	<script src="/resources/assets/js/zabuto_calendar.js"></script>	
+	
+	  <script type="text/javascript" src="/resources/js/upload.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+    <script id="template" type="text/x-handlebars-template">
+	<li>
+ 	 <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+ 	 <div class="mailbox-attachment-info">
+		<span>
+		<a  href="{{getLink}}">{{fileName}} <i class="ffa fa-check "></i></a>
+		<a class="hhlink"href="{{fullName}}" > <i class="fa fa-trash-o"> </i></a>
+		</span>
+
+ 	 </div>
+	</li>                
+
+</script>
     
-    
+<script>
+
+var template = Handlebars.compile($("#template").html());
+$(".fileDrop").on("dragenter dragover", function(event){
+	console.log("1"); 
+  	event.preventDefault();
+  });
+
+  $(".fileDrop").on("drop", function(event){
+		console.log("2"); 
+  	event.preventDefault();
+	var files = event.originalEvent.dataTransfer.files;
+	
+	var file = files[0];
+	
+	var formData = new FormData();
+	
+	formData.append("file", file);
+	
+	$.ajax({
+		url: '/uploadAjax',
+		  data: formData,
+		  dataType:'text',
+		  processData: false,
+		  contentType: false,
+		  type: 'POST',
+		  success: function(data){
+ 			   var fileInfo = getFileInfo(data);
+			  
+			  var html = template(fileInfo);
+			  
+			  $(".uploadedList").append(html);
+		  }
+	});
+ });
+
+$("#registerForm").submit(function(event){
+	
+ 	event.preventDefault();
+	
+ 	var that = $(this);
+	console.log(that);
+	var str ="";
+
+	
+	
+	$(".uploadedList li").each(function(index){
+		console.log("들어갓니 ?");
+		 str += "<input type='hidden' name='files["+index+"]' value='"+$(".hhlink").attr("href") +"'> ";
+		 
+		 console.log("index:" + index); 
+		 
+	});
+	
+
+	console.log(str);
+	
+	that.append(str);
+	console.log(that);
+	that.get(0).submit();
+});
+
+
+$(".uploadedList").on("click",".hhlink", function(){
+	event.preventDefault();
+	var that = $(this); 
+	
+	  $.ajax({
+		 url:"/deleteFile",
+		type:"post",
+		data:{fileName:$(this).attr("href")},
+		dataType:"text", 
+		success:function(result){
+			if(result=='deleted'){
+				that.parent().parent().parent("li").remove();
+				
+				}	
+		 	}
+		});
+});
+
+</script>
+
   <!-- <script>
       //custom select box
 

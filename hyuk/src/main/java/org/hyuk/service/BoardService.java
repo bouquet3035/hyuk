@@ -40,5 +40,13 @@ public interface BoardService {
 	public int listSearchCount(SearchCriteria cri); 
 	
 	
+	// 사진 첨부 이후 코드 
+	public void regist(BoardDTO board); 
+	
+	public List<String> getAttach(Integer bno);
+	
+	public void deleteAttach(Integer bno) ; 
+	
+	public void modify(BoardDTO board);
 
 }

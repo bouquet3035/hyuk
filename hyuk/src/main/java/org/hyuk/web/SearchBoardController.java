@@ -1,6 +1,8 @@
 package org.hyuk.web;
 
 import java.lang.ProcessBuilder.Redirect;
+import java.security.Provider.Service;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.java.Log;
@@ -28,7 +32,7 @@ public class SearchBoardController {
 	
 	@GetMapping("/list")
 	public void listPage(@ModelAttribute("cri") SearchCriteria cri , Model model) {
-		log.info("///////////  hyukboard/list //////////////");
+		
 		log.info("list get 방식 ");
 //		log.info("cri :"+cri.toToString());
 //		log.info("cirteria : "+cri.toString() );
@@ -45,7 +49,7 @@ public class SearchBoardController {
 //		log.info("토탈:"+pageMaker.getTotalCount());
 		
 		model.addAttribute("pageMaker",pageMaker) ; 
-		log.info("////////////////////////////////////////////////////////////////");
+		
 	}
 	
 	@GetMapping("/readPage")
@@ -81,9 +85,13 @@ public class SearchBoardController {
 	public String postmodifyboard(BoardDTO board , SearchCriteria cri, RedirectAttributes rttr) {
 	//public String postmodifyboard( RedirectAttributes rttr) {
 		log.info("modifyboard post 방식");
-		log.info("=======================");
-		
+		log.info("BoardDTO:"+board);
 		boardservice.updateBoard(board);
+		boardservice.modify(board);
+		
+	
+		
+		log.info("BoardDTO:"+board);
 		
 		rttr.addAttribute("page",cri.getPage()) ; 
 		rttr.addAttribute("perPageNum",cri.getPerPageNum()); 
@@ -104,12 +112,40 @@ public class SearchBoardController {
 	public String postregisterboard(BoardDTO board ,RedirectAttributes rttr) {
 		log.info("registerboard POST 방식");
 		
-		boardservice.registerBoard(board);
+		log.info("BoardDTO"+board);
+		//boardservice.registerBoard(board);
+		boardservice.regist(board);
 		
 		rttr.addFlashAttribute("msg","success"); 
 		
 		return "redirect:/hyukboard/list";
-		
-	
 	}
+	
+	@RequestMapping("/getAttach/{bno}")
+	@ResponseBody
+	public List<String> getAttach(@PathVariable("bno")Integer bno){
+		log.info("getAttach");
+		log.info("bno:"+bno); 
+	
+		return boardservice.getAttach(bno);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
